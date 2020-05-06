@@ -9,9 +9,9 @@ namespace ClashRoyale.DatabaseAccessObjects
     {
         WarParticipationContext db;
 
-        public ClanMemberDAO()
+        public ClanMemberDAO(WarParticipationContext context)
         {
-            db = new WarParticipationContext();
+            db = context;
         }
 
         public void Create()
