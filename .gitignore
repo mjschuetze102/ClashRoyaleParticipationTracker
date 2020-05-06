@@ -260,3 +260,6 @@ paket-files/
 __pycache__/
 *.pyc
 *.db
+/ClashRoyale/appsettings.json
+/ClashRoyale/appsettings.Development.json
+/ClashRoyale/Properties/launchSettings.json
