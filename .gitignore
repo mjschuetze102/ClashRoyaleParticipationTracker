@@ -263,3 +263,4 @@ __pycache__/
 /ClashRoyale/appsettings.json
 /ClashRoyale/appsettings.Development.json
 /ClashRoyale/Properties/launchSettings.json
+/ClashRoyaleApiQuery/appsettings.json
