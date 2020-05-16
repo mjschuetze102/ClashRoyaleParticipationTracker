@@ -19,11 +19,12 @@ namespace ClashRoyaleApiQuery
         /// <summary>
         /// Initiliaze the HttpClient with the information needed to connect to the API
         /// </summary>
+        /// <param name="baseUrl">The base url for the API</param>
         /// <param name="apiKey">Token used for authorization with the API client</param>
-        public ApiConnection(string apiKey)
+        public ApiConnection(string baseUrl, string apiKey)
         {
             client = new HttpClient();
-            client.BaseAddress = new Uri("https://api.clashroyale.com/v1/");
+            client.BaseAddress = new Uri(baseUrl);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
@@ -46,15 +47,21 @@ namespace ClashRoyaleApiQuery
             public string Content { get; set; }
         }
 
-        internal async Task<IEnumerable<WarLog>> ConnectToAPI(string clanTag)
+        /// <summary>
+        /// Perform a GET request to the specified url
+        /// </summary>
+        /// <typeparam name="T">Type of object being received from the API</typeparam>
+        /// <param name="url">Url to connect to to retreive data</param>
+        /// <returns>Object of type T containing information from the API</returns>
+        internal async Task<T> GetRequestToAPI<T>(string url)
         {
-            using (var request = new HttpRequestMessage(HttpMethod.Get, $"clans/%23{clanTag}/warlog"))
+            using (var request = new HttpRequestMessage(HttpMethod.Get, url))
             using (var response = await client.SendAsync(request))
             {
                 Stream stream = await response.Content.ReadAsStreamAsync();
 
                 if (response.IsSuccessStatusCode)
-                    return GetObjectFromStream<WarLogs>(stream).Items;
+                    return GetObjectFromStream<T>(stream);
 
                 string content = await GetErrorFromStream(stream);
                 throw new ApiException
