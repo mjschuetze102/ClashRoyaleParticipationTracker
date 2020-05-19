@@ -1,4 +1,4 @@
-﻿using ClashRoyaleApiQuery.Models;
+﻿using ClashRoyaleDataModel.Models;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
