@@ -14,12 +14,19 @@ namespace ClashRoyaleApiQuery
                 .Build();
 
             ApiConnection api = new ApiConnection("https://api.clashroyale.com/v1/", config["clash_royale_api_key"]);
-            string url = $"clans/%23{config["clash_royale_clan_tag"]}/warlog";
-            IEnumerable<WarLog> warlogs = api.GetRequestToAPI<WarLogs>(url).GetAwaiter().GetResult().Items;
+            DataCollection data = new DataCollection(api, config["clash_royale_clan_tag"]);
 
-            foreach (WarLog warlog in warlogs)
+            IEnumerable<WarLog> warLogs = data.GetWarLogs();
+            IEnumerable<DonationRecord> donationRecords = data.GetDonationRecords();
+
+            foreach (WarLog warlog in warLogs)
             {
                 Console.WriteLine(warlog.CreatedDate);
+            }
+
+            foreach (DonationRecord record in donationRecords)
+            {
+                Console.WriteLine(record.StoredDate);
             }
         }
     }

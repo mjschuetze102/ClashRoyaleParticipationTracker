@@ -1,7 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ClashRoyaleDataModel.Models
 {
+    public class DonationRecords
+    {
+        /// <summary>
+        /// Donation record object as received by the API
+        /// </summary>
+        public IEnumerable<DonationRecord> Items { get; set; }
+    }
+
     public class DonationRecord
     {
         /// <summary>
