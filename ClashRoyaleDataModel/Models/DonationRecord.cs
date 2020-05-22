@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace ClashRoyaleDataModel.Models
@@ -43,5 +44,13 @@ namespace ClashRoyaleDataModel.Models
         /// Reference to the player whom this record belongs to
         /// </summary>
         public Player Player { get; set; }
+
+        [JsonConstructor]
+        public DonationRecord(string tag, string name)
+        {
+            StoredDate = DateTime.Now;
+            PlayerTag = tag;
+            Player = new Player { Name = name, Tag = tag };
+        }
     }
 }

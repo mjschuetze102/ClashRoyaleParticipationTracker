@@ -1,4 +1,6 @@
-﻿namespace ClashRoyaleDataModel.Models
+﻿using Newtonsoft.Json;
+
+namespace ClashRoyaleDataModel.Models
 {
     public class WarParticipation
     {
@@ -12,6 +14,7 @@
         /// Date at which the war these results are from took place
         /// </summary>
         /// <remarks>Composite and foreign key attribute</remarks>
+        [JsonProperty("createdDate")]
         public string WarLogDate { get; set; }
 
         /// <summary>
@@ -52,5 +55,12 @@
         /// Reference to the war these results are from
         /// </summary>
         public WarLog Warlog { get; set; }
+
+        [JsonConstructor]
+        public WarParticipation(string tag, string name)
+        {
+            PlayerTag = tag;
+            Player = new Player { Name = name, Tag = tag };
+        }
     }
 }
