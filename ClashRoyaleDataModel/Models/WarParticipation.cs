@@ -15,7 +15,6 @@ namespace ClashRoyaleDataModel.Models
         /// Date at which the war these results are from took place
         /// </summary>
         /// <remarks>Composite and foreign key attribute</remarks>
-        [JsonProperty("createdDate")]
         public string WarLogDate { get; set; }
 
         /// <summary>

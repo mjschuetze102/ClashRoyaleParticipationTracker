@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ClashRoyaleApiQuery
 {
@@ -23,7 +24,7 @@ namespace ClashRoyaleApiQuery
 
             foreach (WarLog warlog in warLogs)
             {
-                foreach (WarParticipation participation in warlog.WarParticipants)
+                foreach (WarParticipation participation in warlog.Participants)
                 {
                     Player player = participation.Player;
 
@@ -46,9 +47,9 @@ namespace ClashRoyaleApiQuery
                 player.DonationRecords.Add(record);
             }
 
-            foreach(Player player in players)
+            foreach (Player player in players)
             {
-                Console.WriteLine($"{player.Tag, 10}, {player.DonationRecords.Count, 3}, {player.WarParticipations.Count, 2}");
+                Console.WriteLine($"{player.Name,15}, {(player.DonationRecords.Count > 0 ? player.DonationRecords.First().Donations : 0),3}, {player.WarParticipations.Count,2}");
             }
         }
     }

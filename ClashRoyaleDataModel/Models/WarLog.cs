@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
@@ -29,8 +28,7 @@ namespace ClashRoyaleDataModel.Models
         /// <summary>
         /// Collection of players who participated in the war
         /// </summary>
-        [JsonProperty("participants")]
-        public ICollection<WarParticipation> WarParticipants { get; set; }
+        public ICollection<WarParticipation> Participants { get; set; }
 
         /// <summary>
         /// Adds a reference to this object to each of the war participant records
@@ -39,7 +37,7 @@ namespace ClashRoyaleDataModel.Models
         [OnDeserialized]
         public void AddReferenceToEachParticipant(StreamingContext context)
         {
-            foreach (WarParticipation participant in WarParticipants)
+            foreach (WarParticipation participant in Participants)
             {
                 participant.Warlog = this;
                 participant.WarLogDate = CreatedDate;
