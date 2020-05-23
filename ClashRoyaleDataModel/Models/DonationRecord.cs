@@ -50,7 +50,12 @@ namespace ClashRoyaleDataModel.Models
         {
             StoredDate = DateTime.Now;
             PlayerTag = tag;
-            Player = new Player { Name = name, Tag = tag };
+            Player = new Player {
+                Name = name,
+                Tag = tag,
+                DonationRecords = new List<DonationRecord>(),
+                WarParticipations = new List<WarParticipation>(),
+            };
         }
     }
 }

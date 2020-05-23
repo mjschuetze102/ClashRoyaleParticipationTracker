@@ -30,5 +30,30 @@ namespace ClashRoyaleDataModel.Models
         /// Collection of war participations for the player
         /// </summary>
         public ICollection<WarParticipation> WarParticipations;
+
+        /// <summary>
+        /// Compares an object to the player to see if they are equal
+        /// </summary>
+        /// <param name="obj">Object being compared to the player</param>
+        /// <returns>Whether or not the two objects are equal</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !(obj is Player))
+            {
+                return false;
+            }
+
+            return Tag.Equals(((Player)obj).Tag);
+        }
+
+        /// <summary>
+        /// Generates a hashcode for the player
+        /// Used in HashSets to make sure the set only contains unique values
+        /// </summary>
+        /// <returns>int hashcode that will be used to identify the player</returns>
+        public override int GetHashCode()
+        {
+            return Tag.GetHashCode();
+        }
     }
 }

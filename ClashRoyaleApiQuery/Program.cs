@@ -19,14 +19,36 @@ namespace ClashRoyaleApiQuery
             IEnumerable<WarLog> warLogs = data.GetWarLogs();
             IEnumerable<DonationRecord> donationRecords = data.GetDonationRecords();
 
+            HashSet<Player> players = new HashSet<Player>();
+
             foreach (WarLog warlog in warLogs)
             {
-                Console.WriteLine(warlog.CreatedDate);
+                foreach (WarParticipation participation in warlog.WarParticipants)
+                {
+                    Player player = participation.Player;
+
+                    if (!players.Contains(player))
+                        players.Add(player);
+
+                    players.TryGetValue(player, out player);
+                    player.WarParticipations.Add(participation);
+                }
             }
 
             foreach (DonationRecord record in donationRecords)
             {
-                Console.WriteLine(record.StoredDate);
+                Player player = record.Player;
+
+                if (!players.Contains(player))
+                    players.Add(player);
+
+                players.TryGetValue(player, out player);
+                player.DonationRecords.Add(record);
+            }
+
+            foreach(Player player in players)
+            {
+                Console.WriteLine($"{player.Tag, 10}, {player.DonationRecords.Count, 3}, {player.WarParticipations.Count, 2}");
             }
         }
     }

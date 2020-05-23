@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace ClashRoyaleDataModel.Models
 {
@@ -60,7 +61,13 @@ namespace ClashRoyaleDataModel.Models
         public WarParticipation(string tag, string name)
         {
             PlayerTag = tag;
-            Player = new Player { Name = name, Tag = tag };
+            Player = new Player
+            {
+                Name = name,
+                Tag = tag,
+                DonationRecords = new List<DonationRecord>(),
+                WarParticipations = new List<WarParticipation>(),
+            };
         }
     }
 }
