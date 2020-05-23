@@ -1,8 +1,4 @@
-﻿using ClashRoyaleDataModel.Models;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace ClashRoyaleApiQuery
 {
@@ -14,43 +10,10 @@ namespace ClashRoyaleApiQuery
                 .AddJsonFile("appsettings.json", true, true)
                 .Build();
 
-            ApiConnection api = new ApiConnection("https://api.clashroyale.com/v1/", config["clash_royale_api_key"]);
+            ApiConnection api = new ApiConnection(config["clash_royale_api_url"], config["clash_royale_api_key"]);
             DataCollection data = new DataCollection(api, config["clash_royale_clan_tag"]);
-
-            IEnumerable<WarLog> warLogs = data.GetWarLogs();
-            IEnumerable<DonationRecord> donationRecords = data.GetDonationRecords();
-
-            HashSet<Player> players = new HashSet<Player>();
-
-            foreach (WarLog warlog in warLogs)
-            {
-                foreach (WarParticipation participation in warlog.Participants)
-                {
-                    Player player = participation.Player;
-
-                    if (!players.Contains(player))
-                        players.Add(player);
-
-                    players.TryGetValue(player, out player);
-                    player.WarParticipations.Add(participation);
-                }
-            }
-
-            foreach (DonationRecord record in donationRecords)
-            {
-                Player player = record.Player;
-
-                if (!players.Contains(player))
-                    players.Add(player);
-
-                players.TryGetValue(player, out player);
-                player.DonationRecords.Add(record);
-            }
-
-            foreach (Player player in players)
-            {
-                Console.WriteLine($"{player.Name,15}, {(player.DonationRecords.Count > 0 ? player.DonationRecords.First().Donations : 0),3}, {player.WarParticipations.Count,2}");
-            }
+            DataStorage storage = new DataStorage(data);
+            storage.StoreData();
         }
     }
 }
