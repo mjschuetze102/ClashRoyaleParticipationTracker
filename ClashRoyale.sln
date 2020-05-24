@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClashRoyale", "ClashRoyale\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClashRoyaleApiQuery", "ClashRoyaleApiQuery\ClashRoyaleApiQuery.csproj", "{21A0E69E-E25B-4774-BC7A-BC2B4B922932}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyaleDataModel", "ClashRoyaleDataModel\ClashRoyaleDataModel.csproj", "{DE6FE9F4-EED5-4C5B-8527-80D7D301950C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClashRoyaleDataModel", "ClashRoyaleDataModel\ClashRoyaleDataModel.csproj", "{DE6FE9F4-EED5-4C5B-8527-80D7D301950C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
