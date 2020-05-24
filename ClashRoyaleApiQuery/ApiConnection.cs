@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ClashRoyaleApiQuery
 {
+    /// <summary>
+    /// Handles connecting to the API and receiving data
+    /// </summary>
     class ApiConnection
     {
         /// <summary>
@@ -15,34 +18,23 @@ namespace ClashRoyaleApiQuery
         HttpClient client;
 
         /// <summary>
-        /// Initiliaze the HttpClient with the information needed to connect to the API
+        /// Initialize the HttpClient with the information needed to connect to the API
         /// </summary>
         /// <param name="baseUrl">The base url for the API</param>
         /// <param name="apiKey">Token used for authorization with the API client</param>
         public ApiConnection(string baseUrl, string apiKey)
         {
+            // Set the URL the API is located at
             client = new HttpClient();
             client.BaseAddress = new Uri(baseUrl);
+
+            // Make sure only json data will be accepted
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // Add the API key to the request
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + apiKey);
-        }
-
-        /// <summary>
-        /// Error received from the API
-        /// </summary>
-        public class ApiException : Exception
-        {
-            /// <summary>
-            /// Status code received from the API
-            /// </summary>
-            public int StatusCode { get; set; }
-
-            /// <summary>
-            /// Message received from the API
-            /// </summary>
-            public string Content { get; set; }
         }
 
         /// <summary>
@@ -53,20 +45,20 @@ namespace ClashRoyaleApiQuery
         /// <returns>Object of type T containing information from the API</returns>
         internal async Task<T> GetRequestToAPI<T>(string url)
         {
+            // Make a GET request to the specified URL
             using (var request = new HttpRequestMessage(HttpMethod.Get, url))
             using (var response = await client.SendAsync(request))
             {
                 Stream stream = await response.Content.ReadAsStreamAsync();
 
+                // Get the specified object from the API
                 if (response.IsSuccessStatusCode)
                     return GetObjectFromStream<T>(stream);
 
-                string content = await GetErrorFromStream(stream);
-                throw new ApiException
-                {
-                    StatusCode = (int)response.StatusCode,
-                    Content = content
-                };
+                // Get the error information if the API fails to load
+                ApiException ex = GetObjectFromStream<ApiException>(stream);
+                ex.StatusCode = (int)response.StatusCode;
+                throw ex;
             }
         }
 
@@ -81,31 +73,13 @@ namespace ClashRoyaleApiQuery
             if (stream == null || stream.CanRead == false)
                 return default;
 
+            // Deserialize the object from the JSON response
             using (StreamReader streamReader = new StreamReader(stream))
             using (JsonTextReader textReader = new JsonTextReader(streamReader))
             {
                 JsonSerializer serializer = new JsonSerializer();
                 return serializer.Deserialize<T>(textReader);
             }
-        }
-
-        /// <summary>
-        /// Retrieve the error message from the API
-        /// </summary>
-        /// <param name="stream">Stream response from the API</param>
-        /// <returns>String containing the error message from the API</returns>
-        private async Task<string> GetErrorFromStream(Stream stream)
-        {
-            if (stream != null)
-            {
-                using (var streamReader = new StreamReader(stream))
-                {
-                    string message = await streamReader.ReadToEndAsync();
-                    return message;
-                }
-            }
-
-            return null;
         }
     }
 }
