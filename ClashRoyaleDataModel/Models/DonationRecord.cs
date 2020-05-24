@@ -45,6 +45,10 @@ namespace ClashRoyaleDataModel.Models
         /// </summary>
         public Player Player { get; set; }
 
+        public DonationRecord()
+        {
+        }
+
         [JsonConstructor]
         public DonationRecord(string tag, string name)
         {
@@ -53,8 +57,6 @@ namespace ClashRoyaleDataModel.Models
             Player = new Player {
                 Name = name,
                 Tag = tag,
-                DonationRecords = new List<DonationRecord>(),
-                WarParticipations = new List<WarParticipation>(),
             };
         }
     }

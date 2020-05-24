@@ -40,8 +40,33 @@ namespace ClashRoyaleDataModel.Models
             foreach (WarParticipation participant in Participants)
             {
                 participant.Warlog = this;
-                participant.WarLogDate = CreatedDate;
+                participant.WarLogCreatedDate = CreatedDate;
             }
+        }
+
+        /// <summary>
+        /// Compares an object to the war log to see if they are equal
+        /// </summary>
+        /// <param name="obj">Object being compared to the war log</param>
+        /// <returns>Whether or not the two objects are equal</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !(obj is WarLog))
+            {
+                return false;
+            }
+
+            return CreatedDate.Equals(((WarLog)obj).CreatedDate);
+        }
+
+        /// <summary>
+        /// Generates a hashcode for the war log
+        /// Used in HashSets to make sure the set only contains unique values
+        /// </summary>
+        /// <returns>int hashcode that will be used to identify the war log</returns>
+        public override int GetHashCode()
+        {
+            return CreatedDate.GetHashCode();
         }
     }
 }

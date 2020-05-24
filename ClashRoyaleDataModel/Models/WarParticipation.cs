@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace ClashRoyaleDataModel.Models
 {
@@ -15,7 +14,7 @@ namespace ClashRoyaleDataModel.Models
         /// Date at which the war these results are from took place
         /// </summary>
         /// <remarks>Composite and foreign key attribute</remarks>
-        public string WarLogDate { get; set; }
+        public string WarLogCreatedDate { get; set; }
 
         /// <summary>
         /// Number of cards earned
@@ -56,6 +55,10 @@ namespace ClashRoyaleDataModel.Models
         /// </summary>
         public WarLog Warlog { get; set; }
 
+        public WarParticipation()
+        {
+        }
+
         [JsonConstructor]
         public WarParticipation(string tag, string name)
         {
@@ -64,8 +67,6 @@ namespace ClashRoyaleDataModel.Models
             {
                 Name = name,
                 Tag = tag,
-                DonationRecords = new List<DonationRecord>(),
-                WarParticipations = new List<WarParticipation>(),
             };
         }
     }

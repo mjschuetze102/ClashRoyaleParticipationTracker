@@ -31,6 +31,12 @@ namespace ClashRoyaleDataModel.Models
         /// </summary>
         public ICollection<WarParticipation> WarParticipations;
 
+        public Player()
+        {
+            DonationRecords = new List<DonationRecord>();
+            WarParticipations = new List<WarParticipation>();
+        }
+
         /// <summary>
         /// Compares an object to the player to see if they are equal
         /// </summary>

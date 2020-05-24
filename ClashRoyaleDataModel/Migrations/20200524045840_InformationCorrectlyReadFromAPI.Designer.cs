@@ -3,14 +3,16 @@ using System;
 using ClashRoyaleDataModel.DatabaseContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ClashRoyaleDataModel.Migrations
 {
     [DbContext(typeof(ClanParticipationContext))]
-    partial class ClanParticipationContextModelSnapshot : ModelSnapshot
+    [Migration("20200524045840_InformationCorrectlyReadFromAPI")]
+    partial class InformationCorrectlyReadFromAPI
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,7 +67,7 @@ namespace ClashRoyaleDataModel.Migrations
                     b.Property<string>("PlayerTag")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("WarLogCreatedDate")
+                    b.Property<string>("WarLogDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("BattlesPlayed")
@@ -80,12 +82,15 @@ namespace ClashRoyaleDataModel.Migrations
                     b.Property<int>("NumberOfBattles")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("WarlogCreatedDate")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Wins")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("PlayerTag", "WarLogCreatedDate");
+                    b.HasKey("PlayerTag", "WarLogDate");
 
-                    b.HasIndex("WarLogCreatedDate");
+                    b.HasIndex("WarlogCreatedDate");
 
                     b.ToTable("WarParticipations");
                 });
@@ -109,9 +114,7 @@ namespace ClashRoyaleDataModel.Migrations
 
                     b.HasOne("ClashRoyaleDataModel.Models.WarLog", "Warlog")
                         .WithMany("Participants")
-                        .HasForeignKey("WarLogCreatedDate")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WarlogCreatedDate");
                 });
 #pragma warning restore 612, 618
         }
