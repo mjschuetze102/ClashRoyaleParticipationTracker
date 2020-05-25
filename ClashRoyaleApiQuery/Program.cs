@@ -10,36 +10,34 @@ namespace ClashRoyaleApiQuery
     {
         static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build();
+            var host = CreateHostBuilder(args).Build();
 
-            IConfiguration config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", true, true)
-                .Build();
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
 
-            var serviceProvider = new ServiceCollection()
-                .AddDbContext<ClanParticipationContext>(options => {
-                    options.UseSqlite(config.GetConnectionString("DefaultConnection"));
-                    options.EnableSensitiveDataLogging(true);
-                })
-                .BuildServiceProvider();
+                // Load services needed by other parts of the application
+                var config = services.GetRequiredService<IConfiguration>();
+                var context = services.GetRequiredService<ClanParticipationContext>();
 
-            var context = serviceProvider.GetRequiredService<ClanParticipationContext>();
-
-            ApiConnection api = new ApiConnection(config["clash_royale_api_url"], config["clash_royale_api_key"]);
-            DataCollection data = new DataCollection(api, config["clash_royale_clan_tag"]);
-            DataStorage storage = new DataStorage(data, context);
-            storage.StoreData();
+                // Collect information from the API and store it within the database
+                var data = new DataCollection(config);
+                new DataStorage(data, context).StoreData();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureServices((hostContext, services) =>
+                .ConfigureAppConfiguration((hostContext, config) =>
                 {
-                    IConfiguration config = new ConfigurationBuilder()
+                    config
                         .AddJsonFile("appsettings.json", true, true)
                         .Build();
-
-                    services.AddDbContext<ClanParticipationContext>(options => options.UseSqlite(config.GetConnectionString("DefaultConnection")));
+                })
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddSingleton(hostContext.Configuration);
+                    services.AddDbContext<ClanParticipationContext>(options => options.UseSqlite(hostContext.Configuration.GetConnectionString("DefaultConnection")));
                 });
     }
 }

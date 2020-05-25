@@ -1,4 +1,5 @@
 ﻿using ClashRoyaleDataModel.Models;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 
 namespace ClashRoyaleApiQuery
@@ -23,9 +24,11 @@ namespace ClashRoyaleApiQuery
         /// </summary>
         private readonly string DonationRecordUrl;
 
-        public DataCollection(ApiConnection api, string clanTag)
+        public DataCollection(IConfiguration config)
         {
-            this.api = api;
+            api = new ApiConnection(config["clash_royale_api_url"], config["clash_royale_api_key"]);
+            string clanTag = config["clash_royale_clan_tag"];
+
             WarLogUrl = $"clans/%23{clanTag}/warlog";
             DonationRecordUrl = $"clans/%23{clanTag}/members";
         }
