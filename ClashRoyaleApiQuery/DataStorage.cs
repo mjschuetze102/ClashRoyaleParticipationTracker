@@ -49,10 +49,10 @@ namespace ClashRoyaleApiQuery
             IEnumerable<DonationRecord> donationRecords = data.GetDonationRecords();
 
             // Create a list to keep track of any wars not already tracked in the database
-            HashSet<WarLog> newWars = new HashSet<WarLog>();
+            var newWars = new HashSet<WarLog>();
 
             // Loop through each war log adding appropriate data to the associated player object
-            foreach (WarLog warlog in warLogs)
+            foreach (var warlog in warLogs)
             {
                 if (previousWars.Contains(warlog))
                     continue;
@@ -73,7 +73,7 @@ namespace ClashRoyaleApiQuery
             }
 
             // Update the donation record for all clan members
-            foreach (DonationRecord record in donationRecords)
+            foreach (var record in donationRecords)
             {
                 // Add the donation record to the player
                 Player player = GetPlayerFromDatabase(record.Player);
@@ -83,7 +83,7 @@ namespace ClashRoyaleApiQuery
                 record.Player = player;
             }
 
-            foreach (Player player in players)
+            foreach (var player in players)
             {
                 Console.WriteLine($"{player.Name,15}, {(player.DonationRecords.Count > 0 ? player.DonationRecords.First().Donations : 0),3}, {player.WarParticipations.Count,2}");
             }

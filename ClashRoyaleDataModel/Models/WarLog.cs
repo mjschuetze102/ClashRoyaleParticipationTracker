@@ -37,7 +37,7 @@ namespace ClashRoyaleDataModel.Models
         [OnDeserialized]
         public void AddReferenceToEachParticipant(StreamingContext context)
         {
-            foreach (WarParticipation participant in Participants)
+            foreach (var participant in Participants)
             {
                 participant.Warlog = this;
                 participant.WarLogCreatedDate = CreatedDate;

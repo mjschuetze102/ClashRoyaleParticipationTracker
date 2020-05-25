@@ -74,10 +74,10 @@ namespace ClashRoyaleApiQuery
                 return default;
 
             // Deserialize the object from the JSON response
-            using (StreamReader streamReader = new StreamReader(stream))
-            using (JsonTextReader textReader = new JsonTextReader(streamReader))
+            using (var streamReader = new StreamReader(stream))
+            using (var textReader = new JsonTextReader(streamReader))
             {
-                JsonSerializer serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
                 return serializer.Deserialize<T>(textReader);
             }
         }
