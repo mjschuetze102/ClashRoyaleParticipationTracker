@@ -44,9 +44,22 @@ namespace ClashRoyaleApiQuery
         /// </summary>
         public void StoreData()
         {
+            SaveWarLogData();
+            SaveDonationRecordData();
+
+            foreach (var player in players)
+            {
+                Console.WriteLine($"{player.Name,15}, {(player.DonationRecords.Count > 0 ? player.DonationRecords.First().Donations : 0),3}, {player.WarParticipations.Count,2}");
+            }
+        }
+
+        /// <summary>
+        /// Saves war log data to the database
+        /// </summary>
+        private void SaveWarLogData()
+        {
             // Load the data from the API
             IEnumerable<WarLog> warLogs = data.GetWarLogs();
-            IEnumerable<DonationRecord> donationRecords = data.GetDonationRecords();
 
             // Create a list to keep track of any wars not already tracked in the database
             var newWars = new HashSet<WarLog>();
@@ -72,6 +85,18 @@ namespace ClashRoyaleApiQuery
                 }
             }
 
+            context.WarHistory.AddRange(newWars);
+            context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Saves donation record data to the database
+        /// </summary>
+        private void SaveDonationRecordData()
+        {
+            // Load the data from the API
+            IEnumerable<DonationRecord> donationRecords = data.GetDonationRecords();
+
             // Update the donation record for all clan members
             foreach (var record in donationRecords)
             {
@@ -83,13 +108,7 @@ namespace ClashRoyaleApiQuery
                 record.Player = player;
             }
 
-            foreach (var player in players)
-            {
-                Console.WriteLine($"{player.Name,15}, {(player.DonationRecords.Count > 0 ? player.DonationRecords.First().Donations : 0),3}, {player.WarParticipations.Count,2}");
-            }
-
             // Save the information to the database
-            context.WarHistory.AddRange(newWars);
             context.DonationRecords.AddRange(donationRecords);
             context.SaveChanges();
         }
