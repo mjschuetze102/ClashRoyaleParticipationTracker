@@ -26,8 +26,8 @@ namespace ClashRoyaleApiQuery
 
         public DataCollection(IConfiguration config)
         {
-            api = new ApiConnection(config["clash_royale_api_url"], config["clash_royale_api_key"]);
-            string clanTag = config["clash_royale_clan_tag"];
+            api = new ApiConnection(config["ClashRoyale:Api:Url"], config["ClashRoyale:Api:Key"]);
+            string clanTag = config["ClashRoyale:ClanTag"];
 
             WarLogUrl = $"clans/%23{clanTag}/warlog";
             DonationRecordUrl = $"clans/%23{clanTag}/members";
