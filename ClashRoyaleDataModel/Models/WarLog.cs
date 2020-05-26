@@ -65,7 +65,6 @@ namespace ClashRoyaleDataModel.Models
 
         /// <summary>
         /// Generates a hashcode for the war log
-        /// Used in HashSets to make sure the set only contains unique values
         /// </summary>
         /// <returns>int hashcode that will be used to identify the war log</returns>
         public override int GetHashCode()

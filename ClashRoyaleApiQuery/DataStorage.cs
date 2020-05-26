@@ -11,22 +11,22 @@ namespace ClashRoyaleApiQuery
         /// <summary>
         /// Reference to the API connection
         /// </summary>
-        private DataCollection _data;
+        private readonly DataCollection _data;
 
         /// <summary>
         /// Reference to the database to store the information to
         /// </summary>
-        private ClanParticipationContext _context;
+        private readonly ClanParticipationContext _context;
 
         /// <summary>
         /// List of players to track before adding to the database
         /// </summary>
-        private HashSet<Player> _players;
+        private readonly HashSet<Player> _players;
 
         /// <summary>
         /// List of wars that are already tracked in the database
         /// </summary>
-        private HashSet<WarLog> _previousWars;
+        private readonly HashSet<WarLog> _previousWars;
 
         public DataStorage(DataCollection data, ClanParticipationContext context)
         {

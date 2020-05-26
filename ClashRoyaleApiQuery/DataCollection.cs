@@ -10,7 +10,7 @@ namespace ClashRoyaleApiQuery
         /// <summary>
         /// Reference to the API connection which will be making the requests
         /// </summary>
-        private ApiConnection _api;
+        private readonly ApiConnection _api;
 
         /// <summary>
         /// Endpoint to hit to load war log information
