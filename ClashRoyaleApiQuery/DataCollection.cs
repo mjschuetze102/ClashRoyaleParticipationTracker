@@ -9,7 +9,7 @@ namespace ClashRoyaleApiQuery
         /// <summary>
         /// Reference to the API connection which will be making the requests
         /// </summary>
-        ApiConnection api;
+        private ApiConnection _api;
 
         /// <summary>
         /// Endpoint to hit to load war log information
@@ -23,7 +23,7 @@ namespace ClashRoyaleApiQuery
 
         public DataCollection(IConfiguration config)
         {
-            api = new ApiConnection(config["ClashRoyale:Api:Url"], config["ClashRoyale:Api:Key"]);
+            _api = new ApiConnection(config["ClashRoyale:Api:Url"], config["ClashRoyale:Api:Key"]);
             string clanTag = config["ClashRoyale:ClanTag"];
 
             WarLogUrl = $"clans/%23{clanTag}/warlog";
@@ -38,7 +38,7 @@ namespace ClashRoyaleApiQuery
         {
             try
             {
-                return api.GetRequestToAPI<WarLogs>(WarLogUrl).GetAwaiter().GetResult().Items;
+                return _api.GetRequestToAPI<WarLogs>(WarLogUrl).GetAwaiter().GetResult().Items;
             }
             catch (ApiException)
             {
@@ -54,7 +54,7 @@ namespace ClashRoyaleApiQuery
         {
             try
             { 
-                return api.GetRequestToAPI<DonationRecords>(DonationRecordUrl).GetAwaiter().GetResult().Items;
+                return _api.GetRequestToAPI<DonationRecords>(DonationRecordUrl).GetAwaiter().GetResult().Items;
             }
             catch (ApiException)
             {

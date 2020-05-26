@@ -12,7 +12,7 @@ namespace ClashRoyaleApiQuery
         /// <summary>
         /// Used to make HTTP requests and receive responses
         /// </summary>
-        HttpClient client;
+        private HttpClient _client;
 
         /// <summary>
         /// Initialize the HttpClient with the information needed to connect to the API
@@ -22,16 +22,16 @@ namespace ClashRoyaleApiQuery
         public ApiConnection(string baseUrl, string apiKey)
         {
             // Set the URL the API is located at
-            client = new HttpClient();
-            client.BaseAddress = new Uri(baseUrl);
+            _client = new HttpClient();
+            _client.BaseAddress = new Uri(baseUrl);
 
             // Make sure only json data will be accepted
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
+            _client.DefaultRequestHeaders.Accept.Clear();
+            _client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
             // Add the API key to the request
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + apiKey);
+            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + apiKey);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace ClashRoyaleApiQuery
         {
             // Make a GET request to the specified URL
             using (var request = new HttpRequestMessage(HttpMethod.Get, url))
-            using (var response = await client.SendAsync(request))
+            using (var response = await _client.SendAsync(request))
             {
                 Stream stream = await response.Content.ReadAsStreamAsync();
 

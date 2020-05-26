@@ -11,29 +11,29 @@ namespace ClashRoyaleApiQuery
         /// <summary>
         /// Reference to the API connection
         /// </summary>
-        DataCollection data;
+        private DataCollection _data;
 
         /// <summary>
         /// Reference to the database to store the information to
         /// </summary>
-        ClanParticipationContext context;
+        private ClanParticipationContext _context;
 
         /// <summary>
         /// List of players to track before adding to the database
         /// </summary>
-        HashSet<Player> players;
+        private HashSet<Player> _players;
 
         /// <summary>
         /// List of wars that are already tracked in the database
         /// </summary>
-        HashSet<WarLog> previousWars;
+        private HashSet<WarLog> _previousWars;
 
         public DataStorage(DataCollection data, ClanParticipationContext context)
         {
-            this.data = data;
-            this.context = context;
-            players = context.ClanMembers.ToHashSet();
-            previousWars = context.WarHistory.ToHashSet();
+            this._data = data;
+            this._context = context;
+            _players = context.ClanMembers.ToHashSet();
+            _previousWars = context.WarHistory.ToHashSet();
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace ClashRoyaleApiQuery
             SaveWarLogData();
             SaveDonationRecordData();
 
-            foreach (var player in players)
+            foreach (var player in _players)
             {
                 Console.WriteLine($"{player.Name,15}, {(player.DonationRecords.Count > 0 ? player.DonationRecords.First().Donations : 0),3}, {player.WarParticipations.Count,2}");
             }
@@ -56,7 +56,7 @@ namespace ClashRoyaleApiQuery
         private void SaveWarLogData()
         {
             // Load the data from the API
-            IEnumerable<WarLog> warLogs = data.GetWarLogs();
+            IEnumerable<WarLog> warLogs = _data.GetWarLogs();
 
             // Create a list to keep track of any wars not already tracked in the database
             var newWars = new HashSet<WarLog>();
@@ -64,7 +64,7 @@ namespace ClashRoyaleApiQuery
             // Loop through each war log adding appropriate data to the associated player object
             foreach (var warlog in warLogs)
             {
-                if (previousWars.Contains(warlog))
+                if (_previousWars.Contains(warlog))
                     continue;
 
                 // Add the new war log to the list which will be added to the database
@@ -82,8 +82,8 @@ namespace ClashRoyaleApiQuery
                 }
             }
 
-            context.WarHistory.AddRange(newWars);
-            context.SaveChanges();
+            _context.WarHistory.AddRange(newWars);
+            _context.SaveChanges();
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace ClashRoyaleApiQuery
         private void SaveDonationRecordData()
         {
             // Load the data from the API
-            IEnumerable<DonationRecord> donationRecords = data.GetDonationRecords();
+            IEnumerable<DonationRecord> donationRecords = _data.GetDonationRecords();
 
             // Update the donation record for all clan members
             foreach (var record in donationRecords)
@@ -106,8 +106,8 @@ namespace ClashRoyaleApiQuery
             }
 
             // Save the information to the database
-            context.DonationRecords.AddRange(donationRecords);
-            context.SaveChanges();
+            _context.DonationRecords.AddRange(donationRecords);
+            _context.SaveChanges();
         }
 
         /// <summary>
@@ -118,10 +118,10 @@ namespace ClashRoyaleApiQuery
         /// <returns>Player being tracked to later be added to the database</returns>
         private Player GetPlayerFromDatabase(Player player)
         {
-            if (!players.Contains(player))
-                players.Add(player);
+            if (!_players.Contains(player))
+                _players.Add(player);
 
-            players.TryGetValue(player, out player);
+            _players.TryGetValue(player, out player);
             return player;
         }
     }
