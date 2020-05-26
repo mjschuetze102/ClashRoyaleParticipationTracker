@@ -4,9 +4,6 @@ using System.Collections.Generic;
 
 namespace ClashRoyaleApiQuery
 {
-    /// <summary>
-    /// Collects the information from the API
-    /// </summary>
     class DataCollection
     {
         /// <summary>

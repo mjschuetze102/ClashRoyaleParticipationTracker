@@ -6,9 +6,6 @@ using System.Linq;
 
 namespace ClashRoyaleApiQuery
 {
-    /// <summary>
-    /// Stores the information gathered from the API to the database
-    /// </summary>
     class DataStorage
     {
         /// <summary>

@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 
 namespace ClashRoyaleApiQuery
 {
-    /// <summary>
-    /// Handles connecting to the API and receiving data
-    /// </summary>
     class ApiConnection
     {
         /// <summary>

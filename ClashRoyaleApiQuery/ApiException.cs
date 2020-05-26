@@ -3,9 +3,6 @@ using System;
 
 namespace ClashRoyaleApiQuery
 {
-    /// <summary>
-    /// Error received from the API
-    /// </summary>
     class ApiException : Exception
     {
         /// <summary>
