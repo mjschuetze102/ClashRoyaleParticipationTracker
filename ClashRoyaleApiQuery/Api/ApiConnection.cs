@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace ClashRoyaleApiQuery
+namespace ClashRoyaleApiQuery.Api
 {
     class ApiConnection
     {

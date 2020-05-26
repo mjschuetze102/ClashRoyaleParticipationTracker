@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace ClashRoyaleApiQuery
+namespace ClashRoyaleApiQuery.Api
 {
     class ApiException : Exception
     {
