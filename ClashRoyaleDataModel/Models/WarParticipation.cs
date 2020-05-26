@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace ClashRoyaleDataModel.Models
 {
@@ -14,7 +15,7 @@ namespace ClashRoyaleDataModel.Models
         /// Date at which the war these results are from took place
         /// </summary>
         /// <remarks>Composite and foreign key attribute</remarks>
-        public string WarLogCreatedDate { get; set; }
+        public DateTime WarLogCreatedDate { get; set; }
 
         /// <summary>
         /// Number of cards earned

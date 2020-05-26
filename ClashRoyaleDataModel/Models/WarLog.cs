@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using ClashRoyaleDataModel.Converters;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
@@ -19,7 +22,8 @@ namespace ClashRoyaleDataModel.Models
         /// </summary>
         /// <remarks>Primary key attribute</remarks>
         [Key]
-        public string CreatedDate { get; set; }
+        [JsonConverter(typeof(DateTimeConverter))]
+        public DateTime CreatedDate { get; set; }
 
         // ///////////////////////////////////////////////
         //             Navigation Properties

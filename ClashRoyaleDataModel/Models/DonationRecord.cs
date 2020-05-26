@@ -52,7 +52,8 @@ namespace ClashRoyaleDataModel.Models
         [JsonConstructor]
         public DonationRecord(string tag, string name)
         {
-            StoredDate = DateTime.Now;
+            var storedDate = DateTime.Now;
+            StoredDate = storedDate.AddTicks(-(storedDate.Ticks % TimeSpan.TicksPerSecond));
             PlayerTag = tag;
             Player = new Player {
                 Name = name,
