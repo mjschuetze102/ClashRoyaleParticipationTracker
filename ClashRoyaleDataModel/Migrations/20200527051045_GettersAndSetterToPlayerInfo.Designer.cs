@@ -3,14 +3,16 @@ using System;
 using ClashRoyaleDataModel.DatabaseContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ClashRoyaleDataModel.Migrations
 {
     [DbContext(typeof(ClanParticipationContext))]
-    partial class ClanParticipationContextModelSnapshot : ModelSnapshot
+    [Migration("20200527051045_GettersAndSetterToPlayerInfo")]
+    partial class GettersAndSetterToPlayerInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

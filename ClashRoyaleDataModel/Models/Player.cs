@@ -24,12 +24,12 @@ namespace ClashRoyaleDataModel.Models
         /// <summary>
         /// Collection of donation records for the player
         /// </summary>
-        public ICollection<DonationRecord> DonationRecords;
+        public ICollection<DonationRecord> DonationRecords { get; set; }
 
         /// <summary>
         /// Collection of war participations for the player
         /// </summary>
-        public ICollection<WarParticipation> WarParticipations;
+        public ICollection<WarParticipation> WarParticipations { get; set; }
 
         public Player()
         {
