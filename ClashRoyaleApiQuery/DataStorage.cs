@@ -1,7 +1,6 @@
 ﻿using ClashRoyaleApiQuery.Database;
 using ClashRoyaleDataModel.DatabaseContexts;
-using System;
-using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleApiQuery
 {
@@ -21,6 +20,7 @@ namespace ClashRoyaleApiQuery
         {
             _data = data;
             _context = context;
+            context.ClanMembers.Include(m => m.DonationRecords).Load();
         }
 
         /// <summary>
@@ -29,17 +29,10 @@ namespace ClashRoyaleApiQuery
         public void StoreData()
         {
             var donationsStore = new DonationRecordStore(_context);
-            donationsStore.StoreAll(_data.GetDonationRecords().ToHashSet());
+            donationsStore.StoreAll(_data.GetDonationRecords());
 
             var warLogStore = new WarLogStore(_context);
-            warLogStore.StoreAll(_data.GetWarLogs().ToHashSet());
-
-            var players = _context.ClanMembers.ToHashSet();
-
-            foreach (var player in players)
-            {
-                Console.WriteLine($"{player.Name,15}, {(player.DonationRecords.Count > 0 ? player.DonationRecords.First().Donations : 0),3}, {player.WarParticipations.Count,2}");
-            }
+            warLogStore.StoreAll(_data.GetWarLogs());
         }
     }
 }

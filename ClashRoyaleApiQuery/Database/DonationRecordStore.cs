@@ -1,6 +1,5 @@
 ﻿using ClashRoyaleDataModel.DatabaseContexts;
 using ClashRoyaleDataModel.Models;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,24 +13,18 @@ namespace ClashRoyaleApiQuery.Database
         /// </summary>
         private readonly ClanParticipationContext _context;
 
-        /// <summary>
-        /// Reference to the players already stored in the database
-        /// </summary>
-        private readonly HashSet<Player> _players;
-
         public DonationRecordStore(ClanParticipationContext context)
         {
             _context = context;
-            _players = _context.ClanMembers.Include(p => p.DonationRecords).ToHashSet();
         }
 
-        public void StoreAll(HashSet<DonationRecord> newRecords)
+        public void StoreAll(IEnumerable<DonationRecord> newRecords)
         {
             // Update the donation record for all clan members
             foreach (var record in newRecords)
             {
                 // Update the donation record for the player
-                Player player = GetPlayerFromDatabase(record.Player);
+                Player player = _context.ClanMembers.Find(record.Player.Tag) ?? record.Player;
 
                 // Remove the old record from the database
                 var oldRecord = player.DonationRecords.Where(r => AreFallingInSameWeek(r.StoredDate, record.StoredDate, DayOfWeek.Monday)).FirstOrDefault();
@@ -43,27 +36,13 @@ namespace ClashRoyaleApiQuery.Database
 
                 // Set the player object to be equivalent to the one that is tracked
                 record.Player = player;
+
+                // Track the changes made to the database
+                _context.DonationRecords.Add(record);
             }
 
             // Save information to the database
-            _context.DonationRecords.UpdateRange(newRecords.Intersect(_context.DonationRecords));
-            _context.DonationRecords.AddRange(newRecords.Except(_context.DonationRecords));
             _context.SaveChanges();
-        }
-
-        /// <summary>
-        /// Loads the data associated with the player from the database
-        /// If player is not found, add the player to the collection
-        /// </summary>
-        /// <param name="player">Player object to search the database for</param>
-        /// <returns>Player being tracked to later be added to the database</returns>
-        private Player GetPlayerFromDatabase(Player player)
-        {
-            if (!_players.Contains(player))
-                _players.Add(player);
-
-            _players.TryGetValue(player, out player);
-            return player;
         }
 
         /// <summary>
