@@ -1,23 +1,30 @@
-﻿using ClashRoyaleDataModel.DatabaseContexts;
+﻿using ClashRoyaleApiQuery.Api;
+using ClashRoyaleDataModel.DatabaseContexts;
 using ClashRoyaleDataModel.Models;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ClashRoyaleApiQuery.Database
 {
-    class WarLogStore
+    class WarLogStore : DataStore<WarLog>
     {
-        /// <summary>
-        /// Reference to the database used to store the information
-        /// </summary>
-        private readonly ClanParticipationContext _context;
-
-        public WarLogStore(ClanParticipationContext context)
+        public WarLogStore(ClanParticipationContext context, string clanTag) : base(context, $"clans/%23{clanTag}/warlog")
         {
-            _context = context;
         }
 
-        public void StoreAll(IEnumerable<WarLog> warLogs)
+        protected override IEnumerable<WarLog> GetDataFromApi()
+        {
+            try
+            {
+                return ApiConnection.GetRequestToAPI<WarLogs>(_endpointUrl).GetAwaiter().GetResult().Items;
+            }
+            catch (ApiException)
+            {
+                return new List<WarLog>();
+            }
+        }
+
+        protected override void SaveAll(IEnumerable<WarLog> warLogs)
         {
             // Filter out wars already tracked by the database
             warLogs = warLogs.ToHashSet().Except(_context.WarHistory);
@@ -36,7 +43,7 @@ namespace ClashRoyaleApiQuery.Database
                     participation.Player = player;
                 }
 
-                // Track the changes made to the database
+                // Track the changes made
                 _context.WarHistory.Add(warlog);
             }
 

@@ -12,7 +12,7 @@ namespace ClashRoyaleApiQuery.Api
         /// <summary>
         /// Used to make HTTP requests and receive responses
         /// </summary>
-        private HttpClient _client;
+        private static HttpClient _client;
 
         /// <summary>
         /// Initialize the HttpClient with the information needed to connect to the API
@@ -40,7 +40,7 @@ namespace ClashRoyaleApiQuery.Api
         /// <typeparam name="T">Type of object being received from the API</typeparam>
         /// <param name="url">Url to connect to to retreive data</param>
         /// <returns>Object of type T containing information from the API</returns>
-        internal async Task<T> GetRequestToAPI<T>(string url)
+        internal static async Task<T> GetRequestToAPI<T>(string url)
         {
             // Make a GET request to the specified URL
             using (var request = new HttpRequestMessage(HttpMethod.Get, url))
@@ -65,7 +65,7 @@ namespace ClashRoyaleApiQuery.Api
         /// <typeparam name="T">Type of the object to deserialize</typeparam>
         /// <param name="stream">Stream which contains information relating to an object</param>
         /// <returns>An object deserialized from information within the stream</returns>
-        private T GetObjectFromStream<T>(Stream stream)
+        private static T GetObjectFromStream<T>(Stream stream)
         {
             if (stream == null || stream.CanRead == false)
                 return default;

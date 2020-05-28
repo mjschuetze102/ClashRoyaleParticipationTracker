@@ -1,4 +1,5 @@
-﻿using ClashRoyaleDataModel.DatabaseContexts;
+﻿using ClashRoyaleApiQuery.Api;
+using ClashRoyaleDataModel.DatabaseContexts;
 using ClashRoyaleDataModel.Models;
 using System;
 using System.Collections.Generic;
@@ -6,19 +7,25 @@ using System.Linq;
 
 namespace ClashRoyaleApiQuery.Database
 {
-    class DonationRecordStore
+    class DonationRecordStore : DataStore<DonationRecord>
     {
-        /// <summary>
-        /// Reference to the database used to store the information
-        /// </summary>
-        private readonly ClanParticipationContext _context;
-
-        public DonationRecordStore(ClanParticipationContext context)
+        public DonationRecordStore(ClanParticipationContext context, string clanTag) : base(context, $"clans/%23{clanTag}/members")
         {
-            _context = context;
         }
 
-        public void StoreAll(IEnumerable<DonationRecord> newRecords)
+        protected override IEnumerable<DonationRecord> GetDataFromApi()
+        {
+            try
+            {
+                return ApiConnection.GetRequestToAPI<DonationRecords>(_endpointUrl).GetAwaiter().GetResult().Items;
+            }
+            catch (ApiException)
+            {
+                return new List<DonationRecord>();
+            }
+        }
+
+        protected override void SaveAll(IEnumerable<DonationRecord> newRecords)
         {
             // Update the donation record for all clan members
             foreach (var record in newRecords)
@@ -37,7 +44,7 @@ namespace ClashRoyaleApiQuery.Database
                 // Set the player object to be equivalent to the one that is tracked
                 record.Player = player;
 
-                // Track the changes made to the database
+                // Track the changes made
                 _context.DonationRecords.Add(record);
             }
 
