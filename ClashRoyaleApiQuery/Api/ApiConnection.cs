@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ClashRoyaleDataModel.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net.Http;
@@ -17,13 +18,12 @@ namespace ClashRoyaleApiQuery.Api
         /// <summary>
         /// Initialize the HttpClient with the information needed to connect to the API
         /// </summary>
-        /// <param name="baseUrl">The base url for the API</param>
-        /// <param name="apiKey">Token used for authorization with the API client</param>
-        public ApiConnection(string baseUrl, string apiKey)
+        /// <param name="config">Configuration containing API base path and key</param>
+        public ApiConnection(ApiConfiguration config)
         {
             // Set the URL the API is located at
             _client = new HttpClient();
-            _client.BaseAddress = new Uri(baseUrl);
+            _client.BaseAddress = new Uri(config.Url);
 
             // Make sure only json data will be accepted
             _client.DefaultRequestHeaders.Accept.Clear();
@@ -31,7 +31,7 @@ namespace ClashRoyaleApiQuery.Api
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
             // Add the API key to the request
-            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + apiKey);
+            _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + config.Key);
         }
 
         /// <summary>

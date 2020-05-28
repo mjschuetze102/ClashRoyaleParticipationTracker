@@ -1,10 +1,12 @@
 ﻿using ClashRoyaleApiQuery.Api;
 using ClashRoyaleApiQuery.Database;
+using ClashRoyaleDataModel.Configuration;
 using ClashRoyaleDataModel.DatabaseContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +24,12 @@ namespace ClashRoyaleApiQuery
                 var services = scope.ServiceProvider;
 
                 // Load services needed by other parts of the application
-                var config = services.GetRequiredService<IConfiguration>();
+                var config = services.GetRequiredService<IOptions<ClashRoyaleConfiguration>>().Value;
                 var context = services.GetRequiredService<ClanParticipationContext>();
 
                 // Parse configuration to complete app setup
-                new ApiConnection(config["ClashRoyale:Api:Url"], config["ClashRoyale:Api:Key"]);
-                string clanTag = config["ClashRoyale:ClanTag"];
+                new ApiConnection(config.Api);
+                string clanTag = config.ClanTag;
 
                 // Preload information from the database
                 context.ClanMembers.Include(m => m.DonationRecords).Load();
@@ -62,7 +64,11 @@ namespace ClashRoyaleApiQuery
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddSingleton(hostContext.Configuration);
+                    services.AddOptions();
+
+                    var section = hostContext.Configuration.GetSection("ClashRoyale");
+                    services.Configure<ClashRoyaleConfiguration>(section);
+
                     services.AddDbContext<ClanParticipationContext>(options => options.UseSqlite(hostContext.Configuration.GetConnectionString("DefaultConnection")));
                 });
     }
