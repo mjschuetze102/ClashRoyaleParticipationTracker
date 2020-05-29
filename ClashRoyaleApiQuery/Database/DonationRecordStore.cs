@@ -7,12 +7,21 @@ using System.Linq;
 
 namespace ClashRoyaleApiQuery.Database
 {
+    /// <summary>
+    /// Gathers donation record data from the API and stores it within the database.
+    /// </summary>
     class DonationRecordStore : DataStore<DonationRecord>
     {
+        /// <summary>
+        /// Initializes store with reference to the database and the endpoint url.
+        /// </summary>
+        /// <param name="context">Reference to the database the information will be stored to.</param>
+        /// <param name="clanTag">Unique clan identifier used as part of the endpoint url.</param>
         public DonationRecordStore(ClanParticipationContext context, string clanTag) : base(context, $"clans/%23{clanTag}/members")
         {
         }
 
+        /// <see cref="DataStore{T}.GetDataFromApi"/>
         protected override IEnumerable<DonationRecord> GetDataFromApi()
         {
             try
@@ -25,6 +34,7 @@ namespace ClashRoyaleApiQuery.Database
             }
         }
 
+        /// <see cref="DataStore{T}.SaveAll(IEnumerable{T})"/>
         protected override void SaveAll(IEnumerable<DonationRecord> newRecords)
         {
             // Update the donation record for all clan members
@@ -53,12 +63,12 @@ namespace ClashRoyaleApiQuery.Database
         }
 
         /// <summary>
-        /// Checks to see if two dates fall within the same week
+        /// Checks to see if two dates fall within the same week.
         /// </summary>
-        /// <param name="date1">First date to compare</param>
-        /// <param name="date2">Second date to compare</param>
-        /// <param name="weekStartsOn">Day of the week that weeks start on</param>
-        /// <returns>Whether or not the two dates fall within the same week</returns>
+        /// <param name="date1">First date to compare.</param>
+        /// <param name="date2">Second date to compare.</param>
+        /// <param name="weekStartsOn">Day of the week that weeks start on.</param>
+        /// <returns>Whether or not the two dates fall within the same week.</returns>
         private bool AreFallingInSameWeek(DateTime date1, DateTime date2, DayOfWeek weekStartsOn)
         {
             return date1.AddDays(-((int)date1.DayOfWeek - (int)weekStartsOn + 7) % 7).Date == date2.AddDays(-((int)date2.DayOfWeek - (int)weekStartsOn + 7) % 7).Date;

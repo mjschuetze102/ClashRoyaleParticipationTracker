@@ -8,17 +8,21 @@ using System.Threading.Tasks;
 
 namespace ClashRoyaleApiQuery.Api
 {
+    /// <summary>
+    /// Connection to the API.
+    /// All requests to the API should be routed using this class.
+    /// </summary>
     class ApiConnection
     {
         /// <summary>
-        /// Used to make HTTP requests and receive responses
+        /// Used to make HTTP requests and receive responses.
         /// </summary>
         private static HttpClient _client;
 
         /// <summary>
-        /// Initialize the HttpClient with the information needed to connect to the API
+        /// Initialize the HttpClient with the information needed to connect to the API.
         /// </summary>
-        /// <param name="config">Configuration containing API base path and key</param>
+        /// <param name="config">Configuration containing API base path and key.</param>
         public ApiConnection(ApiConfiguration config)
         {
             // Set the URL the API is located at
@@ -35,11 +39,11 @@ namespace ClashRoyaleApiQuery.Api
         }
 
         /// <summary>
-        /// Perform a GET request to the specified url
+        /// Perform a GET request to the specified url.
         /// </summary>
-        /// <typeparam name="T">Type of object being received from the API</typeparam>
-        /// <param name="url">Url to connect to to retreive data</param>
-        /// <returns>Object of type T containing information from the API</returns>
+        /// <typeparam name="T">Type of object being received from the API.</typeparam>
+        /// <param name="url">Url to connect to to retreive data.</param>
+        /// <returns>Object of type T containing information from the API.</returns>
         internal static async Task<T> GetRequestToAPI<T>(string url)
         {
             // Make a GET request to the specified URL
@@ -60,11 +64,11 @@ namespace ClashRoyaleApiQuery.Api
         }
 
         /// <summary>
-        /// Deserialize an object from the API response
+        /// Deserialize an object from the API response.
         /// </summary>
-        /// <typeparam name="T">Type of the object to deserialize</typeparam>
-        /// <param name="stream">Stream which contains information relating to an object</param>
-        /// <returns>An object deserialized from information within the stream</returns>
+        /// <typeparam name="T">Type of the object to deserialize.</typeparam>
+        /// <param name="stream">Stream which contains information relating to an object.</param>
+        /// <returns>An object deserialized from information within the stream.</returns>
         private static T GetObjectFromStream<T>(Stream stream)
         {
             if (stream == null || stream.CanRead == false)

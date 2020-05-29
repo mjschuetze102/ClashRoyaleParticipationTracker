@@ -7,20 +7,26 @@ using System.Runtime.Serialization;
 
 namespace ClashRoyaleDataModel.Models
 {
+    /// <summary>
+    /// War log object as received by the API.
+    /// </summary>
     public class WarLogs
     {
         /// <summary>
-        /// War log object as received by the API
+        /// Collection of war logs.
         /// </summary>
         public IEnumerable<WarLog> Items { get; set; }
     }
 
+    /// <summary>
+    /// Record keeping track of who participated in each clan war.
+    /// </summary>
     public class WarLog
     {
         /// <summary>
-        /// Date at which the war was created
+        /// Date at which the war was created.
         /// </summary>
-        /// <remarks>Primary key attribute</remarks>
+        /// <remarks>Primary key attribute.</remarks>
         [Key]
         [JsonConverter(typeof(DateTimeConverter))]
         public DateTime CreatedDate { get; set; }
@@ -30,14 +36,14 @@ namespace ClashRoyaleDataModel.Models
         // ///////////////////////////////////////////////
 
         /// <summary>
-        /// Collection of players who participated in the war
+        /// Collection of players who participated in the war.
         /// </summary>
         public ICollection<WarParticipation> Participants { get; set; }
 
         /// <summary>
-        /// Adds a reference to this object to each of the war participant records
+        /// Adds a reference to this object to each of the war participant records.
         /// </summary>
-        /// <param name="context">Stream with which the object was deserialized</param>
+        /// <param name="context">Stream with which the object was deserialized.</param>
         [OnDeserialized]
         public void AddReferenceToEachParticipant(StreamingContext context)
         {
@@ -49,10 +55,10 @@ namespace ClashRoyaleDataModel.Models
         }
 
         /// <summary>
-        /// Compares an object to the war log to see if they are equal
+        /// Compares an object to the war log to see if they are equal.
         /// </summary>
-        /// <param name="obj">Object being compared to the war log</param>
-        /// <returns>Whether or not the two objects are equal</returns>
+        /// <param name="obj">Object being compared to the war log.</param>
+        /// <returns>Whether or not the two objects are equal.</returns>
         public override bool Equals(object obj)
         {
             if (obj == null || !(obj is WarLog))
@@ -64,9 +70,9 @@ namespace ClashRoyaleDataModel.Models
         }
 
         /// <summary>
-        /// Generates a hashcode for the war log
+        /// Generates a hashcode for the war log.
         /// </summary>
-        /// <returns>int hashcode that will be used to identify the war log</returns>
+        /// <returns>int hashcode that will be used to identify the war log.</returns>
         public override int GetHashCode()
         {
             return CreatedDate.GetHashCode();
