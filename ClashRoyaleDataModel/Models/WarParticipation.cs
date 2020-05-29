@@ -68,7 +68,7 @@ namespace ClashRoyaleDataModel.Models
 
         /// <summary>
         /// Creates a record for clan war participation.
-        /// Simultaneously generates a new player object to keep track of who made the donation
+        /// Simultaneously generates a new player object to keep track of who made the donation.
         /// </summary>
         /// <param name="tag">Unique identifier of the clan member.</param>
         /// <param name="name">Name of the clan member.</param>
