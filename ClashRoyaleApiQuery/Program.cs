@@ -7,9 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ClashRoyaleApiQuery
 {
@@ -44,12 +42,6 @@ namespace ClashRoyaleApiQuery
                 foreach (var dataStore in _dataStores)
                 {
                     dataStore.StoreAll();
-                }
-
-                // Check to make sure information was stored correctly in the database
-                foreach (var player in context.ClanMembers)
-                {
-                    Console.WriteLine($"{player.Name,15}, {(player.DonationRecords.Count > 0 ? player.DonationRecords.First().Donations : 0),3}, {player.WarParticipations.Count,2}");
                 }
             }
         }
