@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ClashRoyale.Database;
-using ClashRoyale.DatabaseAccessObjects;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,13 +21,6 @@ namespace ClashRoyale
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<WarParticipationContext>();
-                    ClanMemberDAO db = new ClanMemberDAO(context);
-
-                    db.Create();
-                    db.Read();
-                    db.Update();
-                    db.Delete();
                 }
                 catch (Exception ex)
                 {
