@@ -30,6 +30,7 @@ namespace ClashRoyaleDataModel.Models
         /// Tag for the player whom this record belongs to.
         /// </summary>
         /// <remarks>Composite and foreign key attribute.</remarks>
+        [JsonIgnore]
         public string PlayerTag { get; set; }
 
         /// <summary>
@@ -49,6 +50,7 @@ namespace ClashRoyaleDataModel.Models
         /// <summary>
         /// Reference to the player whom this record belongs to.
         /// </summary>
+        [JsonIgnore]
         public Player Player { get; set; }
 
         /// <summary>

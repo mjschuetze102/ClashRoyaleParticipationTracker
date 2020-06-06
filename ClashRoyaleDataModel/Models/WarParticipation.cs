@@ -12,6 +12,7 @@ namespace ClashRoyaleDataModel.Models
         /// Tag for the player whom these results belong to.
         /// </summary>
         /// <remarks>Composite and foreign key attribute.</remarks>
+        [JsonIgnore]
         public string PlayerTag { get; set; }
 
         /// <summary>
@@ -52,11 +53,13 @@ namespace ClashRoyaleDataModel.Models
         /// <summary>
         /// Reference to the player whom these results belong to.
         /// </summary>
+        [JsonIgnore]
         public Player Player { get; set; }
 
         /// <summary>
         /// Reference to the war these results are from.
         /// </summary>
+        [JsonIgnore]
         public WarLog Warlog { get; set; }
 
         /// <summary>
