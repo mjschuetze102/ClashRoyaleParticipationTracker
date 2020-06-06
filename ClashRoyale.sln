@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClashRoyale", "ClashRoyale\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClashRoyaleApiQuery", "ClashRoyaleApiQuery\ClashRoyaleApiQuery.csproj", "{21A0E69E-E25B-4774-BC7A-BC2B4B922932}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClashRoyaleCommonData", "ClashRoyaleDataModel\ClashRoyaleCommonData.csproj", "{DE6FE9F4-EED5-4C5B-8527-80D7D301950C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClashRoyaleCommonData", "ClashRoyaleCommonData\ClashRoyaleCommonData.csproj", "{7F50B689-2B46-4CE3-9FC4-DB17D073959C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{21A0E69E-E25B-4774-BC7A-BC2B4B922932}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21A0E69E-E25B-4774-BC7A-BC2B4B922932}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21A0E69E-E25B-4774-BC7A-BC2B4B922932}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DE6FE9F4-EED5-4C5B-8527-80D7D301950C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE6FE9F4-EED5-4C5B-8527-80D7D301950C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DE6FE9F4-EED5-4C5B-8527-80D7D301950C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DE6FE9F4-EED5-4C5B-8527-80D7D301950C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F50B689-2B46-4CE3-9FC4-DB17D073959C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F50B689-2B46-4CE3-9FC4-DB17D073959C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F50B689-2B46-4CE3-9FC4-DB17D073959C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F50B689-2B46-4CE3-9FC4-DB17D073959C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

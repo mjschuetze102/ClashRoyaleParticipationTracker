@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ClashRoyaleDataModel\ClashRoyaleCommonData.csproj" />
+    <ProjectReference Include="..\ClashRoyaleCommonData\ClashRoyaleCommonData.csproj" />
   </ItemGroup>
 
 </Project>
